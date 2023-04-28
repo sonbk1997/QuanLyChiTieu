@@ -11,7 +11,7 @@ public class ProcessData {
     public ProcessData() {
     }
 
-    public void getInfoByDay(String User, Date date, String spendingSubject) throws GeneralSecurityException, IOException {
+    public void getInfoByDay(String User, Date date, String spendingSubject) {
         String column = "Z";
         String row = "1000";
         switch (User) {
@@ -26,6 +26,11 @@ public class ProcessData {
         System.out.println("Month: " + date.getMonth());
         System.out.println("index: " + column+row);
 
-        System.out.println(googleSheetAPI.getData(date.getMonth() + 1, column + row));
+        try {
+//            System.out.println(googleSheetAPI.getData(date.getMonth() + 1, column + row));
+            googleSheetAPI.writeData();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

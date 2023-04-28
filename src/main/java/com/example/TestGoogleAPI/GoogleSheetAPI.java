@@ -12,6 +12,9 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.SheetsScopes;
+import com.google.api.services.sheets.v4.model.Spreadsheet;
+import com.google.api.services.sheets.v4.model.SpreadsheetProperties;
+import com.google.api.services.sheets.v4.model.UpdateValuesResponse;
 import com.google.api.services.sheets.v4.model.ValueRange;
 
 import java.io.FileNotFoundException;
@@ -19,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -29,6 +33,9 @@ public class GoogleSheetAPI {
 
     private static final List<String> SCOPES = Collections.singletonList(SheetsScopes.SPREADSHEETS_READONLY);
     private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
+
+    private static final String spreadsheetId = "16XuCt15k0uUoNdFUjNCbDRx7lD-N1CpqykJxzZkjDc0";
+    Sheets service;
 
     private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
         InputStream in = TestGoogleApiApplication.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
@@ -49,9 +56,8 @@ public class GoogleSheetAPI {
     public String getData(int month, String index) throws IOException, GeneralSecurityException {
         // Build a new authorized API client service.
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        final String spreadsheetId = "16XuCt15k0uUoNdFUjNCbDRx7lD-N1CpqykJxzZkjDc0";
         final String range = "Tháng 4!" + index;
-        Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+        service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
                 .setApplicationName(APPLICATION_NAME)
                 .build();
         ValueRange response = service.spreadsheets().values()
@@ -65,5 +71,42 @@ public class GoogleSheetAPI {
         } else {
             return (String) values.get(0).get(0);
         }
+    }
+
+    public void writeData() throws IOException, GeneralSecurityException {
+        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+        service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+                .setApplicationName(APPLICATION_NAME)
+                .build();
+        final String range = "Tháng 4!" + "A2:C";
+        List<List<Object>> values = Arrays.asList(
+                Arrays.asList(
+                        "1", "2", "3"
+                ),
+                Arrays.asList(
+                        "4", "5", "6"
+                ),
+                Arrays.asList(
+                        "7", "8", "9"
+                )
+        );
+        ValueRange body = new ValueRange()
+                .setValues(values);
+        UpdateValuesResponse result = service
+                .spreadsheets()
+                .values()
+                .update(spreadsheetId, range, body)
+                .execute();
+        System.out.printf("%d cells updated.", result.getUpdatedCells());
+    }
+
+    public void createSheet () throws IOException {
+        Spreadsheet spreadsheet = new Spreadsheet()
+                .setProperties(new SpreadsheetProperties()
+                        .setTitle("Sheet Test"));
+        spreadsheet = service.spreadsheets().create(spreadsheet)
+                .setFields("spreadsheetId")
+                .execute();
+        System.out.println("Spreadsheet ID: " + spreadsheet.getSpreadsheetId());
     }
 }
