@@ -1,2 +1,0 @@
-# OK GOOGLE
-QuanLyChiTieu
