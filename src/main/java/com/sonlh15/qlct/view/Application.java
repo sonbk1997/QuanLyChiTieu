@@ -1,19 +1,24 @@
 package com.sonlh15.qlct.view;
 
-import com.sonlh15.qlct.controller.GoogleSheetAPI;
+import com.sonlh15.qlct.service.GoogleSheetsService;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.security.GeneralSecurityException;
+import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
+@Log4j2
+@Component
+@EnableScheduling
 public class Application extends JFrame {
-
     private JPanel panel1;
     private JTabbedPane tabbedPane1;
-    private JTextArea textArea1;
+    private JTextArea textContent;
     private JTable table1;
     private JCheckBox tienNhaDienNuocCheckBox;
     private JCheckBox ănUốngCheckBox;
@@ -27,23 +32,39 @@ public class Application extends JFrame {
     private JComboBox comboBox1;
     private JButton sửaButton;
     private JButton xóaButton;
-    private JTextField textField1;
-    GoogleSheetAPI googleSheetAPI = new GoogleSheetAPI();
+    private JTextField textFee;
+    private JLabel lbDateTime;
+    GoogleSheetsService service = new GoogleSheetsService("/psychic-iridium-340607-c352e99e635e.json", "16XuCt15k0uUoNdFUjNCbDRx7lD-N1CpqykJxzZkjDc0");
 
     public Application() {
         initUI();
         btnSaveInfo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    googleSheetAPI.getData();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                } catch (GeneralSecurityException ex) {
-                    throw new RuntimeException(ex);
-                }
+                userAddData();
             }
         });
+    }
+
+    public void threadUpdateDate() {
+        log.info("Thread update date");
+        Thread updateDate = new Thread(()->{
+           while (true) {
+               Calendar calendar = Calendar.getInstance();
+
+               lbDateTime.setText(((calendar.getTime().getDate() < 10)?"0":"")
+                       + calendar.getTime().getDay() + "/"
+                       + ((calendar.getTime().getMonth()+1 < 10)?"0":"")
+                       + (calendar.getTime().getMonth()+1) + "/"
+                       + calendar.getWeekYear());
+               try {
+                   TimeUnit.SECONDS.sleep(1);
+               } catch (InterruptedException e) {
+                   throw new RuntimeException(e);
+               }
+           }
+        });
+        updateDate.start();
     }
 
     private void initUI() {
@@ -56,5 +77,14 @@ public class Application extends JFrame {
         setLocationRelativeTo(null);
         setMinimumSize(new Dimension(500, 0));
         setMaximumSize(new Dimension(500, Integer.MAX_VALUE));
+    }
+
+    private void userAddData() {
+        try {
+            service.updateCellValue("Tháng " + 4, "B30", textContent.getText());
+            service.updateCellValue("Tháng " + 4, "C30", textFee.getText());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

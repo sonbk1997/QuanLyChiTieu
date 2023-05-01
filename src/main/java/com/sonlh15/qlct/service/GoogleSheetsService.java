@@ -1,4 +1,4 @@
-package com.sonlh15.qlct.controller;
+package com.sonlh15.qlct.service;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
@@ -9,27 +9,28 @@ import com.google.api.services.sheets.v4.model.AppendValuesResponse;
 import com.google.api.services.sheets.v4.model.ValueRange;
 
 import java.io.IOException;
-import java.security.GeneralSecurityException;
-import java.security.PrivateKey;
 import java.util.Collections;
 import java.util.List;
 
 
 public class GoogleSheetsService {
-
-    private final Sheets sheetsService;
+    private Sheets sheetsService = null;
     private final String spreadsheetId;
 
-    public GoogleSheetsService(String credentialsPath, String spreadsheetId) throws IOException, GeneralSecurityException {
+    public GoogleSheetsService(String credentialsPath, String spreadsheetId) {
         this.spreadsheetId = spreadsheetId;
 
         JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-        GoogleCredential credential = GoogleCredential.fromStream(getClass().getResourceAsStream(credentialsPath))
-                .createScoped(Collections.singleton("https://www.googleapis.com/auth/spreadsheets"));
+        try {
+            GoogleCredential credential = GoogleCredential.fromStream(getClass().getResourceAsStream(credentialsPath))
+                    .createScoped(Collections.singleton("https://www.googleapis.com/auth/spreadsheets"));
 
-        sheetsService = new Sheets.Builder(GoogleNetHttpTransport.newTrustedTransport(), jsonFactory, credential)
-                .setApplicationName("Your Application Name")
-                .build();
+            sheetsService = new Sheets.Builder(GoogleNetHttpTransport.newTrustedTransport(), jsonFactory, credential)
+                    .setApplicationName("Your Application Name")
+                    .build();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void updateCellValue(String sheetName, String cell, String newValue) throws IOException {
