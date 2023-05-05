@@ -123,7 +123,7 @@
                         <properties/>
                         <border type="none"/>
                         <children>
-                          <component id="6748c" class="javax.swing.JCheckBox" binding="ănUốngCheckBox" default-binding="true">
+                          <component id="6748c" class="javax.swing.JCheckBox" binding="checkBoxEatFee">
                             <constraints>
                               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                             </constraints>
@@ -131,7 +131,7 @@
                               <text value="Ăn uống"/>
                             </properties>
                           </component>
-                          <component id="817b5" class="javax.swing.JCheckBox" binding="chiTiêuHằngNgàyCheckBox" default-binding="true">
+                          <component id="817b5" class="javax.swing.JCheckBox" binding="checkBoxDailyFee">
                             <constraints>
                               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                             </constraints>
@@ -139,7 +139,7 @@
                               <text value="Chi tiêu hằng ngày"/>
                             </properties>
                           </component>
-                          <component id="f01e9" class="javax.swing.JCheckBox" binding="quầnÁoCheckBox" default-binding="true">
+                          <component id="f01e9" class="javax.swing.JCheckBox" binding="checkBoxClothesFee">
                             <constraints>
                               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                             </constraints>
@@ -147,7 +147,7 @@
                               <text value="Quần áo"/>
                             </properties>
                           </component>
-                          <component id="ce22b" class="javax.swing.JCheckBox" binding="mỹPhẩmCheckBox" default-binding="true">
+                          <component id="ce22b" class="javax.swing.JCheckBox" binding="checkBoxCosmeticFee">
                             <constraints>
                               <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                             </constraints>
@@ -169,7 +169,7 @@
                         <properties/>
                         <border type="none"/>
                         <children>
-                          <component id="1256" class="javax.swing.JCheckBox" binding="tienNhaDienNuocCheckBox">
+                          <component id="1256" class="javax.swing.JCheckBox" binding="checkBoxHouseFee">
                             <constraints>
                               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                             </constraints>
@@ -177,7 +177,7 @@
                               <text value="Tiền nhà, điện, nước"/>
                             </properties>
                           </component>
-                          <component id="a3d27" class="javax.swing.JCheckBox" binding="điLạiCheckBox" default-binding="true">
+                          <component id="a3d27" class="javax.swing.JCheckBox" binding="checkBoxMoveFee">
                             <constraints>
                               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                             </constraints>
@@ -185,7 +185,7 @@
                               <text value="Đi lại"/>
                             </properties>
                           </component>
-                          <component id="ca402" class="javax.swing.JCheckBox" binding="chiPhíKhácCheckBox" default-binding="true">
+                          <component id="ca402" class="javax.swing.JCheckBox" binding="checkBoxOtherFee">
                             <constraints>
                               <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                             </constraints>
@@ -193,7 +193,7 @@
                               <text value="Chi phí khác"/>
                             </properties>
                           </component>
-                          <component id="96cf8" class="javax.swing.JCheckBox" binding="phíGiaoLưuCheckBox" default-binding="true">
+                          <component id="96cf8" class="javax.swing.JCheckBox" binding="checkBoxFriendlyFee">
                             <constraints>
                               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                             </constraints>

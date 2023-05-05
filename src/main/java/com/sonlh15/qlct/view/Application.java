@@ -20,20 +20,20 @@ public class Application extends JFrame {
     private JTabbedPane tabbedPane1;
     private JTextArea textContent;
     private JTable table1;
-    private JCheckBox tienNhaDienNuocCheckBox;
-    private JCheckBox ănUốngCheckBox;
-    private JCheckBox điLạiCheckBox;
-    private JCheckBox chiTiêuHằngNgàyCheckBox;
-    private JCheckBox quầnÁoCheckBox;
-    private JCheckBox mỹPhẩmCheckBox;
-    private JCheckBox chiPhíKhácCheckBox;
-    private JCheckBox phíGiaoLưuCheckBox;
+    private JCheckBox checkBoxEatFee;
+    private JCheckBox checkBoxMoveFee;
+    private JCheckBox checkBoxDailyFee;
+    private JCheckBox checkBoxClothesFee;
+    private JCheckBox checkBoxCosmeticFee;
+    private JCheckBox checkBoxOtherFee;
+    private JCheckBox checkBoxFriendlyFee;
     private JButton btnSaveInfo;
     private JComboBox comboBox1;
     private JButton sửaButton;
     private JButton xóaButton;
     private JTextField textFee;
     private JLabel lbDateTime;
+    private JCheckBox checkBoxHouseFee;
     GoogleSheetsService service = new GoogleSheetsService("/psychic-iridium-340607-c352e99e635e.json", "16XuCt15k0uUoNdFUjNCbDRx7lD-N1CpqykJxzZkjDc0");
 
     public Application() {
@@ -53,7 +53,7 @@ public class Application extends JFrame {
                Calendar calendar = Calendar.getInstance();
 
                lbDateTime.setText(((calendar.getTime().getDate() < 10)?"0":"")
-                       + calendar.getTime().getDay() + "/"
+                       + calendar.getTime().getDate() + "/"
                        + ((calendar.getTime().getMonth()+1 < 10)?"0":"")
                        + (calendar.getTime().getMonth()+1) + "/"
                        + calendar.getWeekYear());
@@ -81,8 +81,41 @@ public class Application extends JFrame {
 
     private void userAddData() {
         try {
-            service.updateCellValue("Tháng " + 4, "B30", textContent.getText());
-            service.updateCellValue("Tháng " + 4, "C30", textFee.getText());
+            Calendar calendar = Calendar.getInstance();
+            String contentColumn = "";
+            String feeColumn  = "";
+
+            if(checkBoxEatFee.isSelected()) {
+                contentColumn = "A";
+                feeColumn = "C";
+            } else if(checkBoxDailyFee.isSelected()) {
+                contentColumn = "A";
+                feeColumn = "C";
+            } else if(checkBoxClothesFee.isSelected()) {
+                contentColumn = "A";
+                feeColumn = "C";
+            } else if(checkBoxCosmeticFee.isSelected()) {
+                contentColumn = "A";
+                feeColumn = "C";
+            } else if(checkBoxHouseFee.isSelected()) {
+                contentColumn = "A";
+                feeColumn = "C";
+            } else if(checkBoxMoveFee.isSelected()) {
+                contentColumn = "A";
+                feeColumn = "C";
+            } else if(checkBoxFriendlyFee.isSelected()) {
+                contentColumn = "A";
+                feeColumn = "C";
+            } else if(checkBoxOtherFee.isSelected()) {
+                contentColumn = "A";
+                feeColumn = "C";
+            } else {
+                JOptionPane.showMessageDialog(this, "Phải chọn danh mục chi tiêu", "Cảnh báo!!!", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            service.updateCellValue("Tháng " + (calendar.getTime().getMonth()+1), contentColumn + (calendar.getTime().getDate() + 2), textContent.getText());
+            service.updateCellValue("Tháng " + (calendar.getTime().getMonth()+1), feeColumn + (calendar.getTime().getDate() + 2), textFee.getText());
         } catch (Exception e) {
             e.printStackTrace();
         }
